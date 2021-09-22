@@ -7,24 +7,28 @@ const ListItem = ({
   currentPrice,
   priceChangePercentage7d,
   logoUrl,
+  onPress,
 }) => {
   const priceChangeColor = priceChangePercentage7d > 0 ? '#34C759' : '#FF3B30';
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.itemWrapper}>
         <View style={styles.leftWrapper}>
           <Image style={styles.image} source={{ uri: logoUrl }} />
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>{name}</Text>
-            <Text style={styles.subTitle}>{symbol.toUpperCase()}</Text>
+            <Text style={styles.subtitle}>{symbol.toUpperCase()}</Text>
           </View>
         </View>
         <View style={styles.rightWrapper}>
           <Text style={styles.title}>
-            ${currentPrice.toLocaleString('en-US', { currency: 'USD' })}
+            $
+            {parseFloat(currentPrice)
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
           </Text>
-          <Text style={[styles.subTitle, { color: priceChangeColor }]}>
+          <Text style={[styles.subtitle, { color: priceChangeColor }]}>
             {priceChangePercentage7d.toFixed(2)}%
           </Text>
         </View>
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
   },
-  subTitle: {
+  subtitle: {
     marginTop: 4,
     fontSize: 14,
     color: '#A9ABB1',
